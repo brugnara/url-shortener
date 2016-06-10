@@ -19,11 +19,13 @@ co(function*() {
   debug('mongo connected!');
 
   var shortenerRouter = require('.')({
-    collection: db.collection('shortener')
+    collections: {
+      url: db.collection('shortener'),
+      stats: db.collection('statistics')
+    }
   });
 
-  router.use('/short', shortenerRouter.routes());
-  app.use(router.routes());
+  app.use(shortenerRouter.routes());
 
 }).catch(function(e) {
   console.log(e);

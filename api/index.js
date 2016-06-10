@@ -5,7 +5,7 @@
 
 var Router = require('koa-router');
 var koaBody = require('koa-body')();
-// var koaJson = require('koa-json')();
+var collectionIndexer = require('collection-indexer');
 
 var debug = require('debug')('url-shrtnr:router');
 
@@ -13,12 +13,15 @@ module.exports = function(options) {
 
   options = options || {};
 
+  debug('indexing db');
+  collectionIndexer(options.collections);
+
   debug('starting routes generator');
 
   var router = new Router();
 
   // router.post(path, route.fn);
-  router.use('/url', koaBody, require('routes/url')(options).routes());
+  router.use('/u', koaBody, require('routes/url')(options).routes());
 
   debug('returning routes');
 
