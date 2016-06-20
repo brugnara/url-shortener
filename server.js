@@ -19,13 +19,21 @@ co(function*() {
   debug('mongo connected!');
 
   var shortenerRouter = require('.')({
+    homepage: 'http://brugnara.me',
     collections: {
       url: db.collection('shortener'),
       stats: db.collection('statistics')
     }
   });
 
-  app.use(shortenerRouter.routes());
+  // two alternative uses:
+
+  // # 1
+  // app.use(shortenerRouter.routes());
+
+  // # 2
+  router.use('/u', shortenerRouter.routes());
+  app.use(router.routes());
 
 }).catch(function(e) {
   console.log(e);
